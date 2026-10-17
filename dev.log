@@ -1,0 +1,20 @@
+
+> frontend@0.1.0 dev
+> next dev
+
+▲ Next.js 16.4.0 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.10.182:3000
+- Environments: .env.local
+✓ Ready in 1943ms
+✓ Running next.config.ts took 88ms
+- Cache Components enabled
+- Partial Prefetching enabled
+- Experiments (use with caution):
+  ✓ agentFeedback
+
+○ Compiling / ...
+ GET / 200 in 632ms (next.js: 320ms, application-code: 312ms)
+ GET / 200 in 151ms (next.js: 1.6ms, application-code: 149ms)
+ GET / 200 in 132ms (next.js: 2ms, application-code: 130ms)
+[?25h
