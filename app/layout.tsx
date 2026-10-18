@@ -31,6 +31,11 @@ export const metadata: Metadata = {
   ],
   applicationName: "A3TechLabs",
   authors: [{ name: "A3TechLabs" }],
+  icons: {
+    icon: "/browserlogo.png",
+    shortcut: "/browserlogo.png",
+    apple: "/browserlogo.png",
+  },
   openGraph: {
     type: "website",
     locale: "en_US",
