@@ -13,14 +13,14 @@ export const site = {
   location: "Dhaka, Bangladesh",
   contact: {
     email: "a3techlabs@gmail.com",
-    phone: "01798760871",
-    whatsapp: "https://wa.me/8801798760871",
+    phone: "01560001883",
+    whatsapp: "https://wa.me/8801560001883",
     formEndpoint: "",
   },
   socials: [
-    { label: "Facebook", href: "https://facebook.com/" },
+    { label: "Facebook", href: "https://www.facebook.com/profile.php?id=61595258711394" },
     { label: "LinkedIn", href: "https://linkedin.com/" },
-    { label: "WhatsApp", href: "https://wa.me/8801798760871" },
+    { label: "WhatsApp", href: "https://wa.me/8801560001883" },
   ],
 };
 
