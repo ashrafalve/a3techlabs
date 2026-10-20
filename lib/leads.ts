@@ -44,6 +44,12 @@ export async function createLead(lead: NewLead) {
   `;
 }
 
+export async function deleteLead(id: number | string): Promise<void> {
+  await ensureSchema();
+  const sql = db();
+  await sql`delete from leads where id = ${id}`;
+}
+
 export async function listLeads(): Promise<Lead[]> {
   await ensureSchema();
   const sql = db();

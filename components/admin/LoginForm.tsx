@@ -6,6 +6,7 @@ import { useState } from "react";
 export function LoginForm() {
   const router = useRouter();
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
 
@@ -49,16 +50,26 @@ export function LoginForm() {
 
       <label className="flex flex-col gap-2">
         <span className="field-label">Password</span>
-        <input
-          className="field"
-          type="password"
-          autoFocus
-          autoComplete="current-password"
-          value={password}
-          onChange={(event) => setPassword(event.target.value)}
-          placeholder="Enter admin password"
-          required
-        />
+        <div className="relative">
+          <input
+            className="field pr-10"
+            type={showPassword ? "text" : "password"}
+            autoFocus
+            autoComplete="current-password"
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
+            placeholder="Enter admin password"
+            required
+          />
+          <button
+            type="button"
+            onClick={() => setShowPassword((prev) => !prev)}
+            className="absolute right-2 top-1/2 -translate-y-1/2 rounded-md px-2 py-1 text-[12px] text-muted transition-colors hover:text-fg"
+            aria-label={showPassword ? "Hide password" : "Show password"}
+          >
+            {showPassword ? "Hide" : "Show"}
+          </button>
+        </div>
       </label>
 
       {error ? (

@@ -1,7 +1,8 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useTransition } from "react";
 import type { LeadRow } from "@/lib/lead-types";
+import { useRouter } from "next/navigation";
 
 function contains(lead: LeadRow, query: string) {
   const haystack = [
@@ -24,13 +25,38 @@ export function LeadsView({
   rows: LeadRow[];
   weekCount: number;
 }) {
+  const router = useRouter();
   const [query, setQuery] = useState("");
+  const [deletingId, setDeletingId] = useState<number | null>(null);
+  const [isPending, startTransition] = useTransition();
 
   const filtered = useMemo(() => {
     const trimmed = query.trim().toLowerCase();
     if (!trimmed) return rows;
     return rows.filter((lead) => contains(lead, trimmed));
   }, [query, rows]);
+
+  async function handleDelete(id: number) {
+    if (deletingId !== null) return;
+    const confirmed = window.confirm("Delete this inquiry?");
+    if (!confirmed) return;
+    setDeletingId(id);
+    try {
+      const res = await fetch("/api/admin/leads/delete", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id }),
+      });
+      if (!res.ok) throw new Error("Failed");
+      startTransition(() => {
+        router.refresh();
+      });
+    } catch {
+      alert("Failed to delete inquiry.");
+    } finally {
+      setDeletingId(null);
+    }
+  }
 
   if (rows.length === 0) {
     return (
@@ -64,7 +90,7 @@ export function LeadsView({
 
       <div className="overflow-hidden rounded-[22px] border border-line bg-surface">
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[820px] border-collapse text-left">
+          <table className="w-full min-w-[860px] border-collapse text-left">
             <thead>
               <tr className="border-b border-line">
                 <Th>Date</Th>
@@ -72,6 +98,7 @@ export function LeadsView({
                 <Th>Contact</Th>
                 <Th>Project</Th>
                 <Th>Message</Th>
+                <Th>Action</Th>
               </tr>
             </thead>
             <tbody>
@@ -116,6 +143,16 @@ export function LeadsView({
                     <p className="max-w-[38ch] whitespace-pre-wrap">
                       {lead.message}
                     </p>
+                  </td>
+                  <td className="px-5 py-4">
+                    <button
+                      type="button"
+                      onClick={() => handleDelete(lead.id)}
+                      disabled={deletingId === lead.id || isPending}
+                      className="rounded-md border border-line px-3 py-1.5 text-[13px] text-muted transition-colors hover:border-[#e53935]/60 hover:text-[#e53935] disabled:opacity-50"
+                    >
+                      {deletingId === lead.id ? "Deleting..." : "Delete"}
+                    </button>
                   </td>
                 </tr>
               ))}
